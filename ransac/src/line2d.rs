@@ -37,7 +37,7 @@ impl Line2d {
     fn from_points(pt1: &Point2d, pt2: &Point2d) -> Self {
         let k = (pt2.y - pt1.y) / (pt2.x - pt1.x);
         let d = pt1.y - k * pt1.x;
-        return Line2d { k, d };
+        Line2d { k, d }
     }
 }
 
@@ -45,11 +45,11 @@ impl model::Model for Line2d {
     type DataPoint = Point2d;
     type Error = f64;
 
-    fn hypothesis(data: &Vec<&Self::DataPoint>) -> Self {
-        Line2d::from_points(&data[0], &data[1])
+    fn hypothesis(data: &[&Self::DataPoint]) -> Self {
+        Line2d::from_points(data[0], data[1])
     }
 
     fn is_inlier(&self, data_point: &Self::DataPoint, max_inlier_error: &Self::Error) -> bool {
-        data_point.distance_to(&self) < *max_inlier_error
+        data_point.distance_to(self) < *max_inlier_error
     }
 }

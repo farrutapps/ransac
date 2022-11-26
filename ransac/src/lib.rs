@@ -1,7 +1,6 @@
 pub mod model;
 use model::Model;
 pub mod line2d;
-use line2d::{Line2d, Point2d};
 use rand::{seq::IteratorRandom, thread_rng};
 use std::cmp;
 
@@ -30,7 +29,7 @@ pub fn run_ransac<M: Model>(data: &Vec<M::DataPoint>, params: &RansacSettings<M>
         let hypothesis_model = M::hypothesis(&sample);
         let num_inliers = data
             .iter()
-            .filter(|pt| hypothesis_model.is_inlier(&pt, &params.max_inlier_error))
+            .filter(|pt| hypothesis_model.is_inlier(pt, &params.max_inlier_error))
             .count();
 
         if num_inliers > best_num_inliers {
